@@ -117,7 +117,7 @@ while not (valid_point(goal_x,goal_y,clear)) or ((goal_x == start_x)and(goal_y==
 
 # Defining the variables
 
-visited = np.array([start_x,start_y]) # visited list
+visited = np.array([0,0]) # visited list
 q = []      # the open queue
 c = 0       # counter for the nodes
 p = -2      # prev index for the starting node
@@ -127,8 +127,8 @@ ind_mat = np.ones((2400,1000,12),dtype=int)
 ind_mat *= -1
 
 goal_index = 0  # variable to check the goal index
-start_element = [-1,0,start_x,start_y,start_th,0,-2] # starting point added as an element to the heapq in the format 
-# 0: total_cost, 1: cost, 2: x, 3: y, 4: theta,  5: node index, 6: parent
+start_element = [-1,0,start_x,start_y,start_th,0] # starting point added as an element to the heapq in the format 
+# 0: total_cost, 1: cost, 2: x, 3: y, 4: theta,  5: node index
 
 goal = (goal_x,goal_y,goal_th)
 start = (start_x,start_y,start_th)
@@ -159,7 +159,7 @@ while q:
         if ind > -1:  # checking if we have encountered it
             
             # Yes we encountered it
-            tot_curr = graph[ind,4] + np.sqrt(((graph[0]-goal_x)**2+(graph[1]-goal_y)**2))  # total currently
+            tot_curr = graph[ind,4] + np.sqrt(((graph[ind,0]-goal_x)**2+(graph[ind,1]-goal_y)**2))  # total currently
             
             if tot_n < tot_curr:  # checking if the new total is less than the current total
                 # Yes it is lesser
@@ -180,7 +180,6 @@ while q:
                     q[q_index][0] = tot_n
                     q[q_index][1] = n[0]
                     q[q_index][1] = n[3]
-                    q[q_index][6] = point[5]
             
         else:
             # No we have not encountered it
@@ -243,4 +242,3 @@ print("Time taken:", time_taken)
 #     g.write("\n")
 
 # g.close()
-
