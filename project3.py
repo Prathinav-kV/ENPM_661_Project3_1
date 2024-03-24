@@ -74,7 +74,9 @@ def move_star(ctc,x,y,theta,l,c):
     new_points = []
     for angle in angles:
         new_theta = theta+angle
-        while new_theta >= 360:
+        while new_theta<0:
+            new_theta +=360
+        while (new_theta >= 360):
             new_theta -=360
         # x_new = round(x + l*np.cos(np.deg2rad(new_theta)),2)
         # y_new = round(y + l*np.sin(np.deg2rad(new_theta)),2)
