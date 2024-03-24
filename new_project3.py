@@ -2,25 +2,27 @@ import numpy as np
 import heapq as hq
 import matplotlib.pyplot as plt
 from datetime import datetime
-from math import cos, sin, radians
+import sys
+import pygame
 
 def valid_point(x,y,c):
-    equations = hexagon_side_equations(c)
+    d = c+5
+    equations = hexagon_side_equations(d)
     
-    if ( (x >= c) and (x<=(1200-c)) and (y<=(500-c)) and (y>=c) ):
+    if ( (x >= d) and (x<=(1200-(d))) and (y<=(500-(d))) and (y>=(d)) ):
         # print( " Inside box ")
-        if not ( (x>(100-c)) and (x<(175+c)) and (y > (100-c))) :
-            # print(" Outside rectangle 1")
-            if not ( (x>(275-c)) and (x<(350+c)) and (y<(400+c)) ):
-                # print(" Outside rectangle 2")
+        if not ( (x>(100-(d))) and (x<(175+(d))) and (y > (100-(d)))) :
+            # print(" Outside redtangle 1")
+            if not ( (x>(275-(d))) and (x<(350+(d))) and (y<(400+(d))) ):
+                # print(" Outside redtangle 2")
                 if not ( ( ( y - equations[0][0] * x - equations[0][1] ) < 0 ) and (x>equations[1][0]) and ( ( y - equations[2][0] * x - equations[2][1]) > 0) 
                         and ( ( y - equations[3][0]*x - equations[3][1]) > 0 ) and ( x < equations[4][0]) and ( ( y - equations[5][0]*x - equations[5][1]) < 0 ) ):
                     # print(" Outside hexagon")
-                    if not ( (x>(900-c)) and (x<(1100+c)) and (y<(450+c)) and (y>(50-c)) ):
-                        # print(" Outside C shaped object")
+                    if not ( (x>(900-d)) and (x<(1100+d)) and (y<(450+d)) and (y>(50-d)) ):
+                        # print(" Outside d shaped objedt")
                         return True
                     else:
-                        if ( (y<(375-c)) and (y>(125+c)) and (x<(1020-c)) ):
+                        if ( (y<(375-d)) and (y>(125+d)) and (x<(1020-d)) ):
                             # print(" Safe zone of the C shaped object")
                             return True
                         else:
@@ -38,6 +40,8 @@ def valid_point(x,y,c):
     else:
         # print(" Outside box ")
         return False
+        
+from math import cos, sin, radians
 
 def hexagon_side_equations(c):
     # Constants
@@ -70,7 +74,7 @@ def hexagon_side_equations(c):
 
 def move_star(ctc,x,y,theta,l,c):
     
-    angles = [30,60,0,-30,-60]
+    angles = [30,60,90,0,-30,-60,-90]
     new_points = []
     for angle in angles:
         new_theta = theta+angle
@@ -91,15 +95,14 @@ def move_star(ctc,x,y,theta,l,c):
         y_new = round(y_new)
         new_points.append([new_ctc,x_new,y_new,new_theta])
     return new_points
-        
 
 clear = int(input("Enter the clearance in the canvas: "))
 l = int(input("Enter the stride length(0 <= l <= 10) in the canvas l: "))
 start_x = int(input("Enter the starting coordinate x: "))
 start_y = int(input("Enter the starting coordinate y: "))
 start_th = int(input("Enter the starting orientation in degrees: "))
-while start_th >= 360:
-    start_th -=360
+# while start_th >= 360:
+#     start_th -=360
 while not (valid_point(start_x,start_y,clear)):
     print("Please try another starting point not in the object area")
     start_x = int(input("Enter the starting coordinate x: "))
@@ -109,8 +112,8 @@ while not (valid_point(start_x,start_y,clear)):
 goal_x = int(input("Enter the goal coordinate x: "))
 goal_y = int(input("Enter the goal coordinate y: "))
 goal_th = int(input("Enter the goal orientation: "))
-while goal_th >= 360:
-    goal_th -=360
+# while goal_th >= 360:
+#     goal_th -=360
 while not (valid_point(goal_x,goal_y,clear)) or ((goal_x == start_x)and(goal_y==start_y)):
     print("Please try another goal point not equal to start point and not in the object area")
     goal_x = int(input("Enter the goal coordinate x: "))
@@ -122,15 +125,15 @@ while not (valid_point(goal_x,goal_y,clear)) or ((goal_x == start_x)and(goal_y==
 visited = np.array([0,0]) # visited list
 q = []      # the open queue
 c = 0       # counter for the nodes
-p = -2      # prev index for the starting node
+
 
 
 ind_mat = np.ones((2400,1000,12),dtype=int)
 ind_mat *= -1
 
-goal_point = 0  # variable to store the approximate goal x and y coordinates
+goal_point = 0  # variable to check the goal index
 start_element = [-1,0,start_x,start_y,start_th,0] # starting point added as an element to the heapq in the format 
-# 0: total_cost, 1: cost, 2: x, 3: y, 4: theta,  5: node index
+# 0: total_cost, 1: cost, 2: x, 3: y, 4: theta,  5: node index, 6: parent
 
 goal = (goal_x,goal_y,goal_th)
 start = (start_x,start_y,start_th)
@@ -209,38 +212,3 @@ time_taken = end_time - start_time      # calculating the time taken to complete
 print("Time taken:", time_taken)
 
 
-# path_x = np.array([graph[goal_index,3]])    # storing the x coordinate of the goal node
-# path_y = np.array([graph[goal_index,4]])    # storing the y coordinate of the goal node
-
-# path_ind = int(graph[goal_index,2])         # taking the path ind which notes the prev node of the node in the graph
-
-# while path_ind != -2:               # setting the condition where the prev node index reaches that of the starting node
-    
-#     x = graph[path_ind,3]
-#     y = graph[path_ind,4]
-    
-#     path_x = np.append(path_x,x)
-#     path_y = np.append(path_y,y)
-    
-#     path_ind = int(graph[path_ind,2])
-    
-# # Reversing the path coordinates
-# path_xrev = path_x[::-1]
-# path_yrev = path_y[::-1]
-
-# # storing the path coordinates and the visited list in  .txt files, to visulaize without running the code again
-
-# f = open("Path.txt","w")
-# for i in range(len(path_xrev)):
-#     f.write(f"{path_xrev[i]} {path_yrev[i]}")L
-#     f.write("\n")
-
-# f.close()
-
-# g = open("Visted.txt","w")
-# for i in visited:
-#     for j in i:
-#         g.write(f"{j} ")
-#     g.write("\n")
-
-# g.close()
