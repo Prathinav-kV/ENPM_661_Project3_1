@@ -19,18 +19,19 @@ YouTube link:
 
 Code execution:
 
-1. When running the code, it will ask you for the clearance distance, the stride length,start and goal coordinates along with their orientation angles.
+1. When running the code, it will ask you for the clearance distance, the stride length,robot radius, start and goal coordinates along with their orientation angles.
 Input the x coordinate and then input the y coordinate, based on the bottom left origin (0,0). It checks if the inputted coordinates are lying on the object space or not. It will ask you to input the right coordinates in case they fall in the obstacle space. It also ensures that the start node and goal node are not the same.
 
 eg: 
     clearance : 10,
     stride : 4,
+    radius : 5,
     start x coordinate: 20,
     start y coordinate: 20,
     start orientation: 30
     -------------------------
-    goal x coordinate: 400,
-    goal y coordinate: 450,
+    goal x coordinate: 250,
+    goal y coordinate: 400,
     goal orientation: 60
 
 2. We have defined the equations taking into consideration the robot radius =5 units and the clearance as inputted . We calculated the equations of all the boundaries and used them in the valid_point(x,y) function. It checks if the point lies in the obstacle space or not, and returns a boolean value where True means it is a valid point and False means it is in the obstacle space.

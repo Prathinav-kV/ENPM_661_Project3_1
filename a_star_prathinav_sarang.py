@@ -5,8 +5,8 @@ from datetime import datetime
 import sys
 import pygame
 
-def valid_point(x,y,c):
-    d = c+5
+def valid_point(x,y,d):
+    # d = c+5
     equations = hexagon_side_equations(d)
     
     if ( (x >= d) and (x<=(1200-(d))) and (y<=(500-(d))) and (y>=(d)) ):
@@ -98,6 +98,7 @@ def move_star(ctc,x,y,theta,l,c):
 
 clear = int(input("Enter the clearance in the canvas: "))
 l = int(input("Enter the stride length(0 <= l <= 10) in the canvas l: "))
+radius = int(input("Enter the robot radius: "))
 start_x = int(input("Enter the starting coordinate x: "))
 start_y = int(input("Enter the starting coordinate y: "))
 start_th = int(input("Enter the starting orientation in degrees: "))
@@ -154,7 +155,7 @@ while q:
         break
     
     # performing the movement
-    neighbors = move_star(point[1],point[2],point[3],point[4],l,clear)  # getting all the neighboring elements
+    neighbors = move_star(point[1],point[2],point[3],point[4],l,(clear+radius))  # getting all the neighboring elements
     
     for n in neighbors:
 
