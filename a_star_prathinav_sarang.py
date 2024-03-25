@@ -218,10 +218,11 @@ ind = np.where((graph[:, 0] == goal_point[0]) & (graph[:, 1] == goal_point[1]) &
 path_x = []
 path_y = []
 while ind !=-2:
-    v = (graph[ind,0],graph[ind,1])
+    v = (graph[ind, 0].item(),graph[ind, 1].item())
+    # print(ind)
     path_x.append(v[0])
     path_y.append(v[1])
-    ind = graph[ind,4]
+    ind = graph[ind, 4].item()
 path_xrev = path_x[::-1]
 path_yrev = path_y[::-1]
 
