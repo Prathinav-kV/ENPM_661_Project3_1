@@ -1,6 +1,5 @@
 import numpy as np
 import heapq as hq
-import matplotlib.pyplot as plt
 from datetime import datetime
 import sys
 import pygame
