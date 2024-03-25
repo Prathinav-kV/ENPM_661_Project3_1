@@ -211,6 +211,7 @@ time_taken = end_time - start_time      # calculating the time taken to complete
 # Print the time taken
 print("Time taken:", time_taken)
 
+del ind_mat,q
 
 ind = np.where((graph[:, 0] == goal_point[0]) & (graph[:, 1] == goal_point[1]) & (graph[:, 2] == goal_point[2]))[0]
 
