@@ -212,3 +212,107 @@ time_taken = end_time - start_time      # calculating the time taken to complete
 print("Time taken:", time_taken)
 
 
+ind = np.where((graph[:, 0] == goal_point[0]) & (graph[:, 1] == goal_point[1]) & (graph[:, 2] == goal_point[2]))[0]
+
+path_x = []
+path_y = []
+while ind !=-2:
+    v = (graph[ind,0],graph[ind,1])
+    path_x.append(v[0])
+    path_y.append(v[1])
+    ind = graph[ind,4]
+path_xrev = path_x[::-1]
+path_yrev = path_y[::-1]
+
+# storing the path coordinates and the visited list in  .txt files, to visulaize without running the code again
+
+f = open("Path.txt","w")
+for i in range(len(path_xrev)):
+    f.write(f"{path_xrev[i]} {path_yrev[i]}")
+    f.write("\n")
+
+f.close()
+
+g = open("Visited.txt","w")
+for i in visited:
+    for j in i:
+        g.write(f"{j} ")
+    g.write("\n")
+
+g.close()
+
+ready = input(" READY FOR THE ANIMATION ( PRESS Y )")
+
+# Initialize Pygame
+pygame.init()
+
+# Define colors
+pastel_background = (230, 230, 250)  # Pastel background color
+dark_pastel_background = (200, 200, 220)  # Darker pastel background color
+red = (255, 0, 0)
+black = (0, 0, 0)
+blue = (0,0,255)
+white = (255,255,255)
+
+# Set canvas dimensions
+canvas_width = 1200
+canvas_height = 500
+
+# Create the canvas
+canvas = pygame.display.set_mode((canvas_width, canvas_height))
+pygame.display.set_caption("Canvas with Shapes")
+
+# Define rectangle properties
+rect_width = 75
+rect_height = 400
+rect1 = pygame.Rect(100, 0, rect_width, rect_height)
+rect2 = pygame.Rect(275, 100, rect_width, rect_height)
+rect3 = pygame.Rect(900, 50, 200, 75)
+rect4 = pygame.Rect(1020, 125, 80, 250)
+rect5 = pygame.Rect(900, 375, 200, 75)
+
+# Main loop
+running = True
+clock = pygame.time.Clock()  # Initialize the clock
+while running:
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            running = False
+
+    # Fill the canvas with pastel background color
+    canvas.fill(pastel_background)
+
+    # Draw rectangles
+    pygame.draw.rect(canvas, dark_pastel_background, rect1)
+    pygame.draw.rect(canvas, dark_pastel_background, rect2)
+    pygame.draw.rect(canvas, dark_pastel_background, rect3)
+    pygame.draw.rect(canvas, dark_pastel_background, rect4)
+    pygame.draw.rect(canvas, dark_pastel_background, rect5)
+
+    # Draw hexagon
+    pygame.draw.polygon(canvas, dark_pastel_background, [(650, 100), (520, 175), (520, 325), (650, 400), (780, 325), (780, 175)])
+
+    # Draw points
+    pygame.draw.circle(canvas, red, (start_x, 500 - start_y), 1)
+    pygame.draw.circle(canvas, blue, (goal_x, 500 - goal_y), 1)
+    pygame.display.flip()
+
+    for i in visited:
+        pygame.draw.circle(canvas, white, (int(i[0]), int(500 - i[1])), 1)
+        pygame.draw.circle(canvas, red, (start_x, 500 - start_y), 1)
+        pygame.display.flip()
+
+    for i in range(len(path_xrev)):
+        pygame.draw.circle(canvas, black, (int(path_xrev[i]), int(500 - path_yrev[i])), 1)
+        pygame.display.flip()
+        pygame.time.delay(10)
+
+    # Update the display
+    pygame.display.flip()
+
+    # Cap the frame rate
+    clock.tick(1)  # Adjust the frame rate as needed
+
+# Quit Pygame
+pygame.quit()
+sys.exit()
