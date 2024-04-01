@@ -122,7 +122,7 @@ while not (valid_point(goal_x,goal_y,clear)) or ((goal_x == start_x)and(goal_y==
 
 # Defining the variables
 
-visited = np.array([0,0]) # visited list
+visited = set() # visited list
 q = []      # the open queue
 c = 0       # counter for the nodes
 
@@ -148,7 +148,7 @@ while q:
     
     point = hq.heappop(q)
     
-    if ((point[2]-goal_x)**2+(point[3]-goal_y)**2)<=0.25:  # checking if the node is in the goal region
+    if ((point[2]-goal_x)**2+(point[3]-goal_y)**2)<=2.25:  # checking if the node is in the goal region
         print(" Goal region reached")
         goal_point = (point[2],point[3],point[4])
         break
@@ -164,7 +164,7 @@ while q:
         if ind > -1:  # checking if we have encountered it
             
             # Yes we encountered it
-            tot_curr = graph[ind,4] + np.sqrt(((graph[ind,0]-goal_x)**2+(graph[ind,1]-goal_y)**2))  # total currently
+            tot_curr = graph[ind,3] + np.sqrt(((graph[ind,0]-goal_x)**2+(graph[ind,1]-goal_y)**2))  # total currently
             
             if tot_n < tot_curr:  # checking if the new total is less than the current total
                 # Yes it is lesser
@@ -184,7 +184,8 @@ while q:
                 if q_index != -1:
                     q[q_index][0] = tot_n
                     q[q_index][1] = n[0]
-                    q[q_index][1] = n[3]
+                    q[q_index][4] = n[3]
+                    hq.heapify(q)
             
         else:
             # No we have not encountered it
@@ -201,19 +202,24 @@ while q:
             
             hq.heappush(q,temp_element)     # adding the element to the heapq
     
-    visited = np.vstack((visited,[point[2],point[3]]))
+    visited.add((point[2],point[3]))
 
 # End of the Loop
 
 end_time = datetime.now()
 time_taken = end_time - start_time      # calculating the time taken to complete the search
 
+print("Goal point", goal_point)
+
 # Print the time taken
-print("Time taken:", time_taken)
+
+print("Time taken for loop:", time_taken)
 
 del ind_mat,q
 
 ind = np.where((graph[:, 0] == goal_point[0]) & (graph[:, 1] == goal_point[1]) & (graph[:, 2] == goal_point[2]))[0]
+
+start_time = datetime.now()
 
 path_x = []
 path_y = []
@@ -227,6 +233,10 @@ path_xrev = path_x[::-1]
 path_yrev = path_y[::-1]
 
 # storing the path coordinates and the visited list in  .txt files, to visulaize without running the code again
+end_time = datetime.now()
+time_taken = end_time - start_time 
+# Print the time taken
+print("Time taken back tracking:", time_taken)
 
 f = open("Path.txt","w")
 for i in range(len(path_xrev)):
