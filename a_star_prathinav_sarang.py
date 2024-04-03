@@ -89,6 +89,7 @@ def move_star(ctc,x,y,theta,l,c):
         
         if not valid_point(x_new,y_new,c):
             continue
+        
         new_ctc = ctc + l
         x_new = round(x_new)
         y_new = round(y_new)
