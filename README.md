@@ -1,9 +1,7 @@
 # ENPM_661_Project3_1
 ENPM Project 3 Phase 1
 
-# ENPM-661-project2
-ENPM 661 Project 2
-Dijkstras algorithm Project 2:
+A* algorithm:
 
 Prathinav, Karnala Venkata
 120380983
@@ -37,13 +35,9 @@ eg:
 2. We have defined the equations taking into consideration the robot radius =5 units and the clearance as inputted . We calculated the equations of all the boundaries and used them in the valid_point(x,y) function. It checks if the point lies in the obstacle space or not, and returns a boolean value where True means it is a valid point and False means it is in the obstacle space.
 
 3. The graph is a numpy matrix where each element is structured in this manner:
-[ x,y,theta,cost to come,parent node index]
 
-The heapq has elements arranged as follows:
-[ ctc+ctg, ctc, x, y, theta, node index]
-
-4. We are moving the points in 7 directions using the following angles [30,60,90,0,-30,-60,-90]
-We took a goal threshold of 0.5 units.
+4. We are moving the points in 5 directions using the following angles [30,60,0,-30,-60]
+We took a goal threshold of 3 units.
 
 4. The animation is not real-time, we perform the animation after computing the path.
 

@@ -127,12 +127,12 @@ def a_star_algorithm(start, goal):
     open_queue = PriorityQueue()
     open_queue.put((0, start))  # (priority, node)
     
-    open = {start:(0,start)}
+    # open = {start:(0,start)}
 
     while open_queue:
         element = open_queue.get()
         node = element[1]
-        del open[node]
+        # del open[node]
         visited_grid[node[0]][node[1]][node[2]//30] = True
         visited_list.append(node)
 
@@ -151,7 +151,7 @@ def a_star_algorithm(start, goal):
                     cost_grid[move[0]][move[1]][move[2]] = new_cost
                     priority = new_cost + heuristic(move, goal)
                     open_queue.put((priority, move))                    
-                    open[move] = (priority,move)
+                    # open[move] = (priority,move)
                     parent_grid[move[0]][move[1]][move[2]] = node
 
     return parent_grid, visited_list, print("Failed to find goal")
