@@ -227,7 +227,7 @@ def animate(start,goal,path,visited_list):
             pygame.display.flip()
 
         for i in path:
-            pygame.draw.circle(canvas, black, (int(path[0]), int(500 - path[1])), 1)
+            pygame.draw.circle(canvas, black, (int(i[0]), int(500 - i[1])), 1)
             pygame.display.flip()
             pygame.time.delay(10)
 
@@ -299,7 +299,7 @@ def main():
     time_taken = end_time - start_time
     
     print('Path found in: ', time_taken," seconds")
-    
+
     animate(start,goal,path,visited_list)
 
 if __name__=="__main__":
